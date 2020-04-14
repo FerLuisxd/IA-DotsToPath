@@ -4,7 +4,7 @@ boolean start = false;
 Building[] buildings;
 void setup(){
    size(800,800);
-   test = new Population(2000,int(random(0,6)));
+   test = new Population(100,int(random(0,6)));
 }
 
 void draw(){

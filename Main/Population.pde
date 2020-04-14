@@ -18,7 +18,7 @@ Population(int size,int buildingsSize){
     buildings[i]=  new Building(xRand,yRand,xEndRand);
   }
   for(int i = 0; i < dots.length; i++){
-    dots[i]=  new Dot(buildings);
+    dots[i]=  new Dot(buildings,random(3,40));
   }
 
 }

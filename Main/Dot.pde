@@ -11,9 +11,10 @@ class Dot{
   int g;
   int b;
   Building[] buildings;
-  
+  float maxVel;
 
-Dot(Building[] builds){
+Dot(Building[] builds, float maxVelocity){
+  maxVel = maxVelocity;
   buildings = builds;
   brain = new Brain(400);
   r = int(random(255));
@@ -25,7 +26,8 @@ Dot(Building[] builds){
   
 }
 
-Dot(int a, int c, int e,Building[] builds){
+Dot(int a, int c, int e,Building[] builds, float maxVelocity){
+  maxVel = maxVelocity;
    buildings = builds;
   r = a;
   g = c;
@@ -57,7 +59,7 @@ void move(){
  }
   
   vel.add(acc);
-  vel.limit(10);
+  vel.limit(maxVel);
   pos.add(vel);
 }
 
@@ -90,7 +92,9 @@ void update(){
 
 void calculateFitness(){
   if(reachedGoal){
-  fitness = 1.0/16.0+ 10000.0/(float)(brain.step * brain.step);
+      float distanceToGoal = dist(pos.x,pos.y,goal.x,goal.y);
+  //fitness = 1.0/16.0+ 10000.0/(float)(brain.step * brain.step);
+  fitness = 1.0/(distanceToGoal* distanceToGoal);
   }else{
   float distanceToGoal = dist(pos.x,pos.y,goal.x,goal.y);
   fitness = 1.0/(distanceToGoal * distanceToGoal);
@@ -98,7 +102,7 @@ void calculateFitness(){
 }
 
 Dot returnBaby(){
-  Dot baby = new Dot(r,g,b,buildings);
+  Dot baby = new Dot(r,g,b,buildings,maxVel);
   baby.brain = brain.clone();
   return baby;
 }
