@@ -4,18 +4,26 @@ class Population {
     fitnessSum;
     gen = 1;
     bestDot = 0;
-    minStep = 400;
+    foods = 0;
+    minStep = brainLength;
 
 
-    constructor(size, buildingsSize) {
+    constructor(size, buildingsSize,foodSize) {
         console.log("buildings: ", buildingsSize);
         this.buildings = new Array(buildingsSize)
         this.dots = new Array(size)
-        console.log(windowWidth*0.9,windowHeight*0.9)
+        this.foods = new Array(foodSize)
+        console.log(windowWidth*factor,windowHeight*factor)
+        console.log(width*factor,height*factor)
 
+        for (let i = 0; i < this.foods.length; i++) {
+            let xRand = Math.floor(Math.random() * width) - 1
+            let yRand = Math.floor(Math.random() * height) - 1
+            this.foods[i] = new Food(xRand, yRand);
+        }
         for (let i = 0; i < this.buildings.length; i++) {
-            let xRand = Math.floor(Math.random() * windowWidth) - 1
-            let yRand = Math.floor(Math.random() * windowHeight) - 1
+            let xRand = Math.floor(Math.random() * width) - 1
+            let yRand = Math.floor(Math.random() * height) - 1
             let xEndRand = Math.floor(Math.random() * xRand) - 1
             this.buildings[i] = new Building(xRand, yRand, xEndRand);
         }
@@ -36,6 +44,9 @@ class Population {
     }
 
     show() {
+        for (let i = 0; i < this.foods.length; i++) {
+            this.foods[i].show();
+        }
         for (let i = 0; i < this.buildings.length; i++) {
             this.buildings[i].show();
         }

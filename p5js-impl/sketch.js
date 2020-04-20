@@ -33,14 +33,18 @@ let start = false;
 let buildings;
 let test;
 let fr = 60;
+let brainLength = 2000
+let factor = 0.97
+
+let dotsToPoint = true
 function setup() {
-  // display = createP("STARTING");
-  // display.class("results");
-  // display.position(10, 10);
-  // goal = new createVector(windowWidth*0.9 / 2, windowHeight*0.9 - 700)
+  createCanvas(windowWidth*factor, windowHeight*factor);
+
   frameRate(300);
-  test = new Population(10, 10);
-  createCanvas(windowWidth*0.9, windowHeight*0.9);
+  if(dotsToPoint){
+    test = new Population(500, 10,0);
+  }
+  else test = new Population(500,10,50)
 
 }
 
@@ -76,7 +80,7 @@ function draw() {
 }
 function mouseClicked() {
   goal = new createVector(mouseX,mouseY);
-  test.minStep = 400;
+  test.minStep = brainLength ;
   test.reBuild();
   start =true;
 }

@@ -16,11 +16,11 @@ class Dot {
     constructor(builds, maxVelocity, a = undefined, c = undefined, e = undefined) {
         this.maxVel = maxVelocity;
         this.buildings = builds;
-        this.brain = new Brain(400);
+        this.brain = new Brain(brainLength);
         this.r = a ?? Math.floor(Math.random() * 255) + 1;
         this.g = c ?? Math.floor(Math.random() * 255) + 1;
         this.b = e ?? Math.floor(Math.random() * 255) + 1;
-        this.pos = new createVector(windowWidth*0.9 / 2, windowHeight*0.9 - 10);
+        this.pos = new createVector(width*factor / 2, height*factor - 10);
         this.vel = new createVector(0, 0);
         this.acc = new createVector(0, 0);
     }
