@@ -20,7 +20,7 @@ class Population {
             this.buildings[i] = new Building(xRand, yRand, xEndRand);
         }
         for (let i = 0; i < this.dots.length; i++) {
-            this.dots[i] = new Dot(this.buildings, Math.floor(Math.random() * 40) + 3);
+            this.dots[i] = new Dot(this.buildings, Math.floor(Math.random() * 10) + 3);
         }
         console.log(width, height, width / 2, height - 10);
 
@@ -83,6 +83,7 @@ class Population {
             newDots[i] = parent.returnBaby();
         }
         this.dots = [].concat(newDots)
+        console.log(this.dots.length)
         this.gen++;
     }
 

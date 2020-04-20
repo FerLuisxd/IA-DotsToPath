@@ -32,13 +32,14 @@ let goal;
 let start = false;
 let buildings;
 let test;
-
+let fr = 60;
 function setup() {
   // display = createP("STARTING");
   // display.class("results");
   // display.position(10, 10);
   // goal = new createVector(windowWidth*0.9 / 2, windowHeight*0.9 - 700)
-  test = new Population(100, 3);
+  frameRate(300);
+  test = new Population(10, 10);
   createCanvas(windowWidth*0.9, windowHeight*0.9);
 
 }
@@ -51,15 +52,15 @@ function draw() {
   }
   background(255);
   fill(255, 0, 0);
-  rect(goal.x,goal.y,10,10)
-  // ellipse(goal.x, goal.y, 10, 10);
+  // rect(goal.x,goal.y,10,10)
+  ellipse(goal.x, goal.y, 10, 10);
 
 
-  //fill(0,0,255);
-  //rect(0,300,600,10);
+  fill(0,0,255);
+  rect(0,300,600,10);
 
-  //fill(0,0,255);
-  //rect(200,500,600,10);
+  fill(0,0,255);
+  rect(200,500,600,10);
 
   if (test.allDotsDead()) {
     test.calculateFitness();
