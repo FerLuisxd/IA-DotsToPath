@@ -82,7 +82,7 @@ class Dot {
                             this.fitness += fit * porcentage* porcentage
                         }
                         else {
-                            this.fitness += fit * porcentage * porcentage*porcentage*porcentage*porcentage
+                            this.fitness += fit * porcentage * porcentage*porcentage
                         }
                         
                         if(this.located>=maxLocated){
