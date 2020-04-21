@@ -12,15 +12,19 @@ class Dot {
     b;
     buildings;
     maxVel;
+    foods;
+    foodReached;
 
-    constructor(builds, maxVelocity, a = undefined, c = undefined, e = undefined) {
+    constructor(builds, foods, maxVelocity, a = undefined, c = undefined, e = undefined) {
         this.maxVel = maxVelocity;
         this.buildings = builds;
+        this.foods = foods;
         this.brain = new Brain(brainLength);
+        this.foodReached = new Array(this.foods.length)
         this.r = a ?? Math.floor(Math.random() * 255) + 1;
         this.g = c ?? Math.floor(Math.random() * 255) + 1;
         this.b = e ?? Math.floor(Math.random() * 255) + 1;
-        this.pos = new createVector(width*factor / 2, height*factor - 10);
+        this.pos = new createVector(width * factor / 2, height * factor - 10);
         this.vel = new createVector(0, 0);
         this.acc = new createVector(0, 0);
     }
@@ -39,95 +43,72 @@ class Dot {
     move() {
         if (this.brain.directions.length > this.brain.step) {
             if (this.collisionDetected(true)) {
-                this.vel.x =this.vel.x*-1 
-                this.vel.y =this.vel.y*-1 
+                this.vel.x = this.vel.x * -1
+                this.vel.y = this.vel.y * -1
             }
             this.acc = this.brain.directions[this.brain.step];
             this.brain.step++;
-        }
-        else this.dead = true
+        } else this.dead = true
         this.vel.add(this.acc);
         this.vel.limit(this.maxVel);
         this.pos.add(this.vel);
     }
 
-    collisionDetected(detectBuildings = false){
-        if(this.pos.x < 2 || this.pos.y < 2 || this.pos.x > width - 2 || this.pos.y > height - 2){
-            return true
-        }
-        if(detectBuildings){
-            //Used to work
-            // if(this.pos.x<600 && this.pos.y<310 &&  this.pos.x>0 && this.pos.y>300 ){
-            //     return true;
-            // }else if(this.pos.x<800 && this.pos.y<510 &&  this.pos.x>200 && this.pos.y>500 ){
-            //     return true;
-            // }
-            for (let i = 0; i < this.buildings.length; i++) {
+    collisionDetected(detectBuildings = false) {
+        if (detectBuildings) {
+            for (let i = 0; i < this.foods.length; i++) {
                 if (
-                    this.pos.x < this.buildings[i].xEnd &&
-                    this.pos.y < this.buildings[i].y + 10 &&
-                    this.pos.x > this.buildings[i].x &&
-                    this.pos.y > this.buildings[i].y
+                    this.pos.x < this.foods[i].pos.x + 6 &&
+                    this.pos.y < this.foods[i].pos.y + 6 &&
+                    this.pos.x > this.foods[i].pos.x &&
+                    this.pos.y > this.foods[i].pos.y
                 ) {
-                        return true
+                    if(!this.foodReached[i]){
+                        console.log('entre a ', i)
+                        this.fitness += 100
+                        this.foodReached[i] = true
+                    }
+
                 }
             }
+            for (let i = 0; i < this.buildings.length; i++) {
+                if (
+                    this.pos.x < this.buildings[i].x + this.buildings[i].xEnd + 2 &&
+                    this.pos.y < this.buildings[i].y + this.buildings[i].yEnd + 2 &&
+                    this.pos.x > this.buildings[i].x - 2 &&
+                    this.pos.y > this.buildings[i].y - 2
+                ) {
+                    return true
+                }
+            }
+        }
+        if (this.pos.x < 2 || this.pos.y < 2 || this.pos.x > width - 2 || this.pos.y > height - 2) {
+            return true
         }
         return false
     }
 
     update() {
-        if (!this.dead && !this.reachedGoal) {
+        if (!this.dead) {
             this.move();
-            // if (this.collisionDetected(true)) {
-            //     this.dead = true;
-            // } 
-            if (dist(this.pos.x, this.pos.y, goal.x, goal.y) < 5) {
-                this.reachedGoal = true;
-            } else {
-                // for (let i = 0; i < this.buildings.length; i++) {
-                //     if (
-                //         this.pos.x < this.buildings[i].xEnd &&
-                //         this.pos.y < this.buildings[i].y + 10 &&
-                //         this.pos.x > this.buildings[i].x &&
-                //         this.pos.y > this.buildings[i].y
-                //     ) {
-                //         if (!this.dead) {
-                //             this.dead = true;
-                //         }
-                //     }
-                // }
-                // fill(0,0,255);
-                // rect(0,300,600,10);
-                //works
-                if(this.pos.x<600 && this.pos.y<310 &&  this.pos.x>0 && this.pos.y>300 ){
-                    this.dead = true;
-                }else if(this.pos.x<800 && this.pos.y<510 &&  this.pos.x>200 && this.pos.y>500 ){
-                    this.dead = true;
-                }
-            }
         }
     }
 
     calculateFitness() {
-        let distanceToGoal = dist(this.pos.x, this.pos.y, goal.x, goal.y)
-        if (this.reachedGoal) {
-            //fitness = 1.0/16.0+ 10000.0/(float)(brain.step * brain.step);
-            this.fitness = 1.0 / (distanceToGoal * distanceToGoal);
-        } else {
-            this.fitness = 1.0 / (distanceToGoal * distanceToGoal);
-        }
+        return this.fitness
     }
 
     returnBaby() {
         let baby = new Dot(
             this.buildings,
+            this.foods,
             this.maxVel,
             this.r,
             this.g,
             this.b
         );
         baby.brain = this.brain.clone();
+        console.log('nuevo cerebro',baby.brain.directions.length)
         return baby;
     }
 }

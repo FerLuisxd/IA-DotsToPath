@@ -13,8 +13,7 @@ class Population {
         this.buildings = new Array(buildingsSize)
         this.dots = new Array(size)
         this.foods = new Array(foodSize)
-        console.log(windowWidth*factor,windowHeight*factor)
-        console.log(width*factor,height*factor)
+        console.log(width,height)
 
         for (let i = 0; i < this.foods.length; i++) {
             let xRand = Math.floor(Math.random() * width) - 1
@@ -22,13 +21,13 @@ class Population {
             this.foods[i] = new Food(xRand, yRand);
         }
         for (let i = 0; i < this.buildings.length; i++) {
-            let xRand = Math.floor(Math.random() * width) - 1
-            let yRand = Math.floor(Math.random() * height) - 1
-            let xEndRand = Math.floor(Math.random() * xRand) - 1
-            this.buildings[i] = new Building(xRand, yRand, xEndRand);
+                let xRand = Math.floor(Math.random() * width) - 1
+                let yRand = Math.floor(Math.random() * height) - 1
+                let xEndRand = Math.floor(Math.random() * xRand) - 1
+                this.buildings[i] = new Building(xRand, yRand,xEndRand );
         }
         for (let i = 0; i < this.dots.length; i++) {
-            this.dots[i] = new Dot(this.buildings, Math.floor(Math.random() * 10) + 3);
+            this.dots[i] = new Dot(this.buildings,this.foods,10);
         }
         console.log(width, height, width / 2, height - 10);
 
@@ -36,10 +35,10 @@ class Population {
 
     reBuild() {
         for (let i = 0; i < this.buildings.length; i++) {
-            let xRand = Math.floor(Math.random() * 800) - 1
-            let yRand = Math.floor(Math.random() * 800) - 1
+            let xRand = Math.floor(Math.random() * width) - 1
+            let yRand = Math.floor(Math.random() * height) - 1
             let xEndRand = Math.floor(Math.random() * xRand) - 1
-            this.buildings[i] = new Building(xRand, yRand, xEndRand);
+            this.buildings[i] = new Building(xRand, yRand,xEndRand );
         }
     }
 
@@ -75,7 +74,7 @@ class Population {
 
     allDotsDead() {
         for (let i = 0; i < this.dots.length; i++) {
-            if (!this.dots[i].dead && !this.dots[i].reachedGoal)
+            if (!this.dots[i].dead )
                 return false;
         }
         return true;
@@ -137,10 +136,9 @@ class Population {
         }
         this.bestDot = maxIndex;
 
-        if (this.dots[this.bestDot].reachedGoal) {
-            this.minStep = this.dots[this.bestDot].brain.step;
+            this.minStep = this.dots[this.bestDot].fitness;
             console.log("step: ", this.minStep);
-        }
+        
     }
 
 }
