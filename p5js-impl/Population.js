@@ -6,13 +6,16 @@ class Population {
     bestDot = 0;
     foods = 0;
     minStep = brainLength;
+    ghosts;
+    ghostV = 2;
 
 
     constructor(size, buildingsSize,foodSize) {
         console.log("buildings: ", buildingsSize);
-        this.buildings = new Array(buildingsSize)
-        this.dots = new Array(size)
-        this.foods = new Array(foodSize)
+        this.buildings = new Array(buildingsSize);
+        this.dots = new Array(size);
+        this.ghosts = new Array(size);
+        this.foods = new Array(foodSize);
         console.log(width,height)
 
         for (let i = 0; i < this.foods.length; i++) {
@@ -28,6 +31,12 @@ class Population {
         }
         for (let i = 0; i < this.dots.length; i++) {
             this.dots[i] = new Dot(this.buildings,this.foods,10);
+        }
+        for (let i = 0; i < this.ghosts.length; i++) {
+            let xRand = Math.floor(Math.random() * width) - 1
+            let yRand = Math.floor(Math.random() * height) - 1
+            let p = new createVector(xRand, yRand);
+            this.ghosts[i] = new Ghost(p, this.ghostV, this.dots[i]);
         }
         console.log(width, height, width / 2, height - 10);
 
@@ -52,6 +61,9 @@ class Population {
         for (let i = 1; i < this.dots.length; i++) {
             this.dots[i].show();
         }
+        for (let i = 0; i < this.ghosts.length; i++) {
+            this.ghosts[i].show();
+        }
         this.dots[0].show();
     }
 
@@ -61,16 +73,11 @@ class Population {
                 this.dots[i].dead = true;
             }
             this.dots[i].update();
-
+        }
+        for (let i = 0; i < this.ghosts.length; i++) {
+            this.ghosts[i].update();
         }
     }
-
-    calculateFitness() {
-        for (let i = 0; i < this.dots.length; i++) {
-            this.dots[i].calculateFitness();
-        }
-    }
-
 
     allDotsDead() {
         for (let i = 0; i < this.dots.length; i++) {
@@ -114,7 +121,6 @@ class Population {
                 return this.dots[i];
             }
         }
-
         return null;
     }
 
@@ -139,6 +145,13 @@ class Population {
             this.minStep = this.dots[this.bestDot].fitness;
             console.log("step: ", this.minStep);
         
+    }
+
+    restoreGhosts() {
+        for (let i = 0; i < this.ghosts.length; i++) {
+            this.ghosts[i].restore();
+            this.ghosts[i].hunting = this.dots[i];
+        }
     }
 
 }

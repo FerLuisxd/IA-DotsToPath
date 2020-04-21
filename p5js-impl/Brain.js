@@ -10,9 +10,7 @@ class Brain {
     randomize() {
         for (let i = 0; i < this.directions.length; i++) {
             let randomAngle = Math.random() * 2 * Math.PI;
-            console.log(randomAngle);
             this.directions[i] = p5.Vector.fromAngle(randomAngle);
-            console.log(this.directions[i]);
         }
     }
 
@@ -35,5 +33,4 @@ class Brain {
         }
 
     }
-
 }
