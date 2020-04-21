@@ -15,6 +15,7 @@ class Dot {
     foods;
     foodReached;
     time = 0;
+    located = 0;
 
     constructor(builds, foods, maxVelocity, a = undefined, c = undefined, e = undefined) {
         this.maxVel = maxVelocity;
@@ -68,11 +69,29 @@ class Dot {
                     this.pos.y > this.foods[i].pos.y
                 ) {
                     if(!this.foodReached[i]){
-                        let porcentage = (1 - (this.brain.step/this.brain.directions.length))
-                        if(this.fitness < 200000 ){
-                            this.fitness += 100000 * porcentage * porcentage * porcentage
+                        this.located++
+                        let porcentage = (this.brain.step/this.brain.directions.length)
+                        // if(this.fitness < 2*fit ){
+                        //     this.fitness += fit * porcentage * porcentage
+                        // }
+                        //else{}
+                        if(porcentage <0.60){
+                            this.fitness += fit * porcentage
                         }
-                        else this.fitness += 100000 * porcentage
+                        else if(porcentage <0.80){
+                            this.fitness += fit * porcentage* porcentage
+                        }
+                        else {
+                            this.fitness += fit * porcentage * porcentage*porcentage*porcentage*porcentage
+                        }
+                        
+                        if(this.located>=maxLocated){
+                            this.brain.extendRandomize(Math.floor(Math.random() * 100)+50) 
+                        }
+                        else if(this.located>maxLocated){
+                            this.brain.extendRandomize(Math.floor(Math.random() * 150) + 50) 
+                        }
+
                         this.foodReached[i] = true
                         this.time = 30;
                     }

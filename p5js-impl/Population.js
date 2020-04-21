@@ -6,7 +6,7 @@ class Population {
     bestDot = 0;
     foods = 0;
     minStep = 0;
-
+    maxLocated = 0;
 
     constructor(size, buildingsSize,foodSize) {
         console.log("buildings: ", buildingsSize);
@@ -133,6 +133,7 @@ class Population {
         this.bestDot = maxIndex;
 
             this.minStep = this.dots[this.bestDot].fitness;
+            this.maxLocated = this.dots[this.bestDot].located;
             console.log("step: ", this.minStep);
         
     }
