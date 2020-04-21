@@ -1,29 +1,30 @@
-let goal;
 let start = false;
 let buildings;
 let test;
 let fr = 500;
-let brainLength = 100
+let brainLength = 200
 let factor = 0.97
 let foodN = 50
 let fit = 100000
 let maxLocated = 0
+
+//Funcion para cargar informacion previamente
 function setup() {
   createCanvas(windowWidth*factor, windowHeight*factor);
-
   frameRate(fr);
   test = new Population(1000,20,foodN)
-
 }
-
+//Funcion para dibujar los componentes
 function draw() {
   if(start){
   background(255);
   fill(255, 0, 0);
 
+  //Condicional para realizar las actualizaciones correspondientes
   if (test.allDotsDead()) {
     test.naturalSelection();
     test.mutateBabies();
+    test.restoreGhosts();
     if(maxLocated<test.maxLocated){
       maxLocated = test.maxLocated
     }
@@ -36,6 +37,8 @@ function draw() {
   text("Fps: " + frameRate(), 20, 40);
   }
 }
+
+//Funcion para dar click al mouse
 function mouseClicked() {
   test.minStep = 0;
   test.reBuild();

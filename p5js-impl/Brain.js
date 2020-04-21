@@ -29,7 +29,7 @@ class Brain {
         }
         return clone;
     }
-    // En caso se necesie se permite mutarlas direcciones
+    // En caso se necesie se permite mutar las direcciones
     mutate() {
         let mutationRate = 0.01
         for (let i = 0; i < this.directions.length; i++) {
