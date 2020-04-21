@@ -14,6 +14,7 @@ class Dot {
     maxVel;
     foods;
     foodReached;
+    time = 0;
 
     constructor(builds, foods, maxVelocity, a = undefined, c = undefined, e = undefined) {
         this.maxVel = maxVelocity;
@@ -24,19 +25,22 @@ class Dot {
         this.r = a ?? Math.floor(Math.random() * 255) + 1;
         this.g = c ?? Math.floor(Math.random() * 255) + 1;
         this.b = e ?? Math.floor(Math.random() * 255) + 1;
-        this.pos = new createVector(width * factor / 2, height * factor - 10);
+        this.pos = new createVector(width * factor / 2, height * factor - 20);
         this.vel = new createVector(0, 0);
         this.acc = new createVector(0, 0);
     }
 
 
     show() {
-        if (!this.isBest) {
+        if(!this.dead){
+            // if (!this.isBest) {
             fill(this.r, this.g, this.b);
-        } else {
-            fill(0, 0);
+            // } else {
+            //     fill(0, 0);
+            // }
+            ellipse(this.pos.x, this.pos.y, 4, 4);
         }
-        ellipse(this.pos.x, this.pos.y, 4, 4);
+
 
     }
 
@@ -58,15 +62,19 @@ class Dot {
         if (detectBuildings) {
             for (let i = 0; i < this.foods.length; i++) {
                 if (
-                    this.pos.x < this.foods[i].pos.x + 6 &&
-                    this.pos.y < this.foods[i].pos.y + 6 &&
+                    this.pos.x < this.foods[i].pos.x + 10 &&
+                    this.pos.y < this.foods[i].pos.y + 10 &&
                     this.pos.x > this.foods[i].pos.x &&
                     this.pos.y > this.foods[i].pos.y
                 ) {
                     if(!this.foodReached[i]){
-                        console.log('entre a ', i)
-                        this.fitness += 100
+                        let porcentage = (1 - (this.brain.step/this.brain.directions.length))
+                        if(this.fitness < 200000 ){
+                            this.fitness += 100000 * porcentage * porcentage * porcentage
+                        }
+                        else this.fitness += 100000 * porcentage
                         this.foodReached[i] = true
+                        this.time = 30;
                     }
 
                 }
@@ -90,7 +98,9 @@ class Dot {
 
     update() {
         if (!this.dead) {
-            this.move();
+            if(this.time--<0){
+                this.move();
+            }
         }
     }
 
@@ -108,7 +118,6 @@ class Dot {
             this.b
         );
         baby.brain = this.brain.clone();
-        console.log('nuevo cerebro',baby.brain.directions.length)
         return baby;
     }
 }

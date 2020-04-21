@@ -9,7 +9,7 @@ class Brain {
 
     randomize() {
         for (let i = 0; i < this.directions.length; i++) {
-            let randomAngle = Math.random() * 2 * Math.PI + 1;
+            let randomAngle = Math.random() * 2 * Math.PI;
             this.directions[i] = p5.Vector.fromAngle(randomAngle);
         }
     }
@@ -23,11 +23,11 @@ class Brain {
     }
 
     mutate() {
-        let mutationRate = 0
+        let mutationRate = 0.03
         for (let i = 0; i < this.directions.length; i++) {
             let rand = Math.random() * 1;
             if (rand < mutationRate) {
-                let randomAngle = Math.random() * 2 * Math.PI + 1;
+                let randomAngle = Math.random() * 2 * Math.PI;
                 this.directions[i] = p5.Vector.fromAngle(randomAngle);
             }
         }

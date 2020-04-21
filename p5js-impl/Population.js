@@ -5,7 +5,7 @@ class Population {
     gen = 1;
     bestDot = 0;
     foods = 0;
-    minStep = brainLength;
+    minStep = 0;
 
 
     constructor(size, buildingsSize,foodSize) {
@@ -58,7 +58,6 @@ class Population {
     update() {
         for (let i = 0; i < this.dots.length; i++) {
             this.dots[i].update();
-
         }
     }
 
