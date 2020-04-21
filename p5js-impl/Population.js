@@ -57,9 +57,6 @@ class Population {
 
     update() {
         for (let i = 0; i < this.dots.length; i++) {
-            if (this.dots[i].brain.step > this.minStep) {
-                this.dots[i].dead = true;
-            }
             this.dots[i].update();
 
         }
@@ -74,7 +71,7 @@ class Population {
 
     allDotsDead() {
         for (let i = 0; i < this.dots.length; i++) {
-            if (!this.dots[i].dead )
+            if (!this.dots[i].dead)
                 return false;
         }
         return true;
