@@ -1,3 +1,7 @@
+//Prueba
+let hunter;
+let ghostsPosition;
+
 let goal;
 let start = false;
 let buildings;
@@ -14,8 +18,9 @@ function setup() {
   if(dotsToPoint){
     test = new Population(500, 10,0);
   }
-  else test = new Population(300,20,30)
-
+  else test = new Population(1,20,30)
+  ghostsPosition = new createVector(100, 50);
+  hunter = new Ghost(ghostsPosition,5);
 }
 
 function draw() {
@@ -33,9 +38,13 @@ function draw() {
   text("??: " + test.dots.length, 20, 40);
   test.update();
   test.show();
+  hunter.update(test.dots[0].pos);
+ 
+  hunter.show();
   }
 }
 function mouseClicked() {
+  //ghostsPosition = new createVector(mouseX, mouseY);
   test.minStep = brainLength ;
   test.reBuild();
   start =true;
