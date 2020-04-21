@@ -26,7 +26,7 @@ class Dot {
         this.r = a ?? Math.floor(Math.random() * 255) + 1;
         this.g = c ?? Math.floor(Math.random() * 255) + 1;
         this.b = e ?? Math.floor(Math.random() * 255) + 1;
-        this.pos = new createVector(width * factor / 2, height * factor - 20);
+        this.pos = new createVector(width * factor / 2, height * factor /2);
         this.vel = new createVector(0, 0);
         this.acc = new createVector(0, 0);
     }
@@ -56,7 +56,14 @@ class Dot {
             //Obtiene una direccion
             this.acc = this.brain.directions[this.brain.step];
             this.brain.step++;
-        } else this.dead = true
+        } else {
+            if(this.located >= maxLocated *0.85 ) this.dead = true
+            else {
+                console.log('soy down')
+                this.fitness = this.fitness * 0.80
+                this.dead = true
+            }   
+        }
         //Setea la aceleracion
         this.vel.add(this.acc);
         //Setea la velocidad
@@ -71,37 +78,41 @@ class Dot {
             //Colision con la comida
             for (let i = 0; i < this.foods.length; i++) {
                 if (
-                    this.pos.x < this.foods[i].pos.x + 10 &&
-                    this.pos.y < this.foods[i].pos.y + 10 &&
-                    this.pos.x > this.foods[i].pos.x &&
-                    this.pos.y > this.foods[i].pos.y
+                    this.pos.x < this.foods[i].pos.x + 8 &&
+                    this.pos.y < this.foods[i].pos.y + 8 &&
+                    this.pos.x > this.foods[i].pos.x - 2 &&
+                    this.pos.y > this.foods[i].pos.y - 2
                 ) {
                     if(!this.foodReached[i]){
                         this.located++
-                        let porcentage = (this.brain.step/this.brain.directions.length)
+                        let porcentage = 1 - (this.brain.step/this.brain.directions.length)
                         // if(this.fitness < 2*fit ){
                         //     this.fitness += fit * porcentage * porcentage
                         // }
                         //else{}
-                        if(porcentage <0.60){
+                        if(this.located>= maxLocated) {
                             this.fitness += fit * porcentage
                         }
-                        else if(porcentage <0.80){
-                            this.fitness += fit * porcentage* porcentage
+                        else if(porcentage <0.75){
+                            this.fitness += fit * porcentage * porcentage 
                         }
                         else {
-                            this.fitness += fit * porcentage * porcentage*porcentage
-                        }
-                        
-                        if(this.located>=maxLocated){
-                            this.brain.extendRandomize(Math.floor(Math.random() * 100)+50) 
-                        }
-                        else if(this.located>maxLocated){
-                            this.brain.extendRandomize(Math.floor(Math.random() * 150) + 50) 
+                            this.fitness += fit * porcentage * porcentage * porcentage * porcentage
                         }
 
+                        if(this.located>=maxLocated){
+                            let random = Math.floor(Math.random() * 100)+ 150
+                            console.log('aumente de verdad ?', random)
+                            this.brain.extendRandomize(random) 
+                        }
+                        // else if(this.located>=maxLocated * 0.85){
+                        //     let random = Math.floor(Math.random() * 50)+ 50
+                        //     console.log('aumente?', random)
+                        //     this.brain.extendRandomize(random) 
+                        // }
+
                         this.foodReached[i] = true
-                        this.time = 30;
+                        this.time = 2;
                     }
 
                 }

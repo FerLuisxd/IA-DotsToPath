@@ -2,17 +2,18 @@ let start = false;
 let buildings;
 let test;
 let fr = 500;
-let brainLength = 200
+let brainLength = 100
 let factor = 0.97
 let foodN = 50
 let fit = 100000
 let maxLocated = 0
-
+let ghosts = true
+let maxVelocity = 20
 //Funcion para cargar informacion previamente
 function setup() {
   createCanvas(windowWidth*factor, windowHeight*factor);
   frameRate(fr);
-  test = new Population(1000,20,foodN)
+  test = new Population(500,20,foodN,ghosts)
 }
 //Funcion para dibujar los componentes
 function draw() {
@@ -25,14 +26,12 @@ function draw() {
     test.naturalSelection();
     test.mutateBabies();
     test.restoreGhosts();
-    if(maxLocated<test.maxLocated){
-      maxLocated = test.maxLocated
-    }
+    maxLocated = test.maxLocated
   }
   test.update();
   test.show();
   text("generation: " + test.gen, 20, 20);
-  text("maxLocated: " + maxLocated + " out of " + foodN, 20, 50);
+  text("Last maxLocated: " + maxLocated + " out of " + foodN, 20, 50);
   text("maxFitness: " + test.minStep, 20, 30);
   text("Fps: " + frameRate(), 20, 40);
   }

@@ -56,8 +56,12 @@ class Ghost {
         //Calculamos la distancia entre ambos centros
         let distance = sqrt((this.pos.x - dot.pos.x)^2 + (this.pos.y - dot.pos.y)^2)
         //Si la suma de ambos radios es mayor a la distancia calculada, significa que colisionaron
-        if ((this.rad/2 + 2) > distance) {
+        if ((this.rad/2 ) > distance) {
+            console.log("murio por ghost")
             dot.dead = true;
+            if(dot.located>maxLocated * 0.90) dot.fitness = dot.fitness * 0.85
+            else if(dot.located>maxLocated*0.75) dot.fitness = dot.fitness * 0.60
+            else dot.fitness = dot.fitness * 0.3
             this.dead = true;
         }
     }

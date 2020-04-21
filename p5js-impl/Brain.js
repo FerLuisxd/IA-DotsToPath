@@ -31,10 +31,11 @@ class Brain {
     }
     // En caso se necesie se permite mutar las direcciones
     mutate() {
-        let mutationRate = 0.01
+        let mutationRate = 0.0005
         for (let i = 0; i < this.directions.length; i++) {
             let rand = Math.random() * 1;
             if (rand < mutationRate) {
+                console.log('mute?')
                 let randomAngle = Math.random() * 2 * Math.PI;
                 this.directions[i] = p5.Vector.fromAngle(randomAngle);
             }

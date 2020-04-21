@@ -10,11 +10,11 @@ class Population {
     ghostV = 1;         //Velocidad maxima de los fantasmas
     maxLocated = 0;     
 
-    constructor(size, buildingsSize,foodSize) {
+    constructor(size, buildingsSize,foodSize,ghosts = false) {
         console.log("buildings: ", buildingsSize);
         this.buildings = new Array(buildingsSize);  //Arreglo de obstaculos
         this.dots = new Array(size);                //Arreglo de dots
-        this.ghosts = new Array(size);              //Arreglo de fantasmas
+        if(ghosts) this.ghosts = new Array(size);              //Arreglo de fantasmas
         this.foods = new Array(foodSize);           //Arreglo de comida
         console.log(width,height)
 
@@ -33,14 +33,18 @@ class Population {
         }
         //Se genera aleatoriamente el arreglo de dots
         for (let i = 0; i < this.dots.length; i++) {
-            this.dots[i] = new Dot(this.buildings,this.foods,10);
+            this.dots[i] = new Dot(this.buildings,this.foods,maxVelocity);
         }
         //Se genera aleatoriamente el arreglo de fantasmas
-        for (let i = 0; i < this.ghosts.length; i++) {
-                let xRand = Math.floor(Math.random() * width) - 1
-                let yRand = Math.floor(Math.random() * height) - 1                
+        if(ghosts){
+            for (let i = 0; i < this.ghosts.length; i++) {
+                // let xRand = Math.floor(Math.random() * width) - 1
+                // let yRand = Math.floor(Math.random() * height) - 1                
+                let xRand = 0
+                let yRand = 0                
                 let po = new createVector(xRand, yRand);
-                this.ghosts[i] = new Ghost(po, this.ghostV, this.dots[i]);
+                this.ghosts[i] = new Ghost(po, maxVelocity/10, this.dots[i]);
+            }
         }
         console.log(width, height, width / 2, height - 10);
 
@@ -72,8 +76,10 @@ class Population {
             this.dots[i].show();
         }
         //Se dibujan los fantasmas
-        for (let i = 0; i < this.ghosts.length; i++) {
-            this.ghosts[i].show();
+        if(this.ghosts){
+            for (let i = 0; i < this.ghosts.length; i++) {
+                this.ghosts[i].show();
+            }
         }
         this.dots[0].show();
     }
@@ -83,9 +89,12 @@ class Population {
         for (let i = 0; i < this.dots.length; i++) {
             this.dots[i].update();
         }
-        for (let i = 0; i < this.ghosts.length; i++) {
-            this.ghosts[i].update();
+        if(this.ghosts){
+            for (let i = 0; i < this.ghosts.length; i++) {
+                this.ghosts[i].update();
+            }
         }
+
     }
 
     //Funcion con la cual se comprueba si todos los dots ya han muerto
@@ -172,10 +181,12 @@ class Population {
 
     //Funcion para restaurar los valores del arreglo de fantasmas
     restoreGhosts() {
-        for (let i = 0; i < this.ghosts.length; i++) {
-            this.ghosts[i].restore();
-            //Se le asigna un nuevo objetivo al cual cazar
-            this.ghosts[i].hunting = this.dots[i];
+        if(this.ghosts){
+            for (let i = 0; i < this.ghosts.length; i++) {
+                this.ghosts[i].restore();
+                //Se le asigna un nuevo objetivo al cual cazar
+                this.ghosts[i].hunting = this.dots[i];
+            }
         }
     }
 
