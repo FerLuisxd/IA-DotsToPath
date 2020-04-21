@@ -5,10 +5,10 @@ class Population {
     gen = 1;
     bestDot = 0;
     foods = 0;
-    minStep = brainLength;
+    minStep = 0;
     ghosts;
     ghostV = 2;
-
+    maxLocated = 0;
 
     constructor(size, buildingsSize,foodSize) {
         console.log("buildings: ", buildingsSize);
@@ -69,9 +69,6 @@ class Population {
 
     update() {
         for (let i = 0; i < this.dots.length; i++) {
-            if (this.dots[i].brain.step > this.minStep) {
-                this.dots[i].dead = true;
-            }
             this.dots[i].update();
         }
         for (let i = 0; i < this.ghosts.length; i++) {
@@ -81,7 +78,7 @@ class Population {
 
     allDotsDead() {
         for (let i = 0; i < this.dots.length; i++) {
-            if (!this.dots[i].dead )
+            if (!this.dots[i].dead)
                 return false;
         }
         return true;
@@ -143,6 +140,7 @@ class Population {
         this.bestDot = maxIndex;
 
             this.minStep = this.dots[this.bestDot].fitness;
+            this.maxLocated = this.dots[this.bestDot].located;
             console.log("step: ", this.minStep);
         
     }

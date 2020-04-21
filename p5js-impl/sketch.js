@@ -2,19 +2,18 @@ let goal;
 let start = false;
 let buildings;
 let test;
-let fr = 60;
-let brainLength = 1000
+let fr = 500;
+let brainLength = 100
 let factor = 0.97
-
-let dotsToPoint = false
+let foodN = 50
+let fit = 100000
+let maxLocated = 0
 function setup() {
   createCanvas(windowWidth*factor, windowHeight*factor);
 
-  frameRate(60);
-  if(dotsToPoint){
-    test = new Population(500, 10,0);
-  }
-  else test = new Population(5,20,30)
+  frameRate(fr);
+  test = new Population(1000,20,foodN)
+
 }
 
 function draw() {
@@ -25,18 +24,20 @@ function draw() {
   if (test.allDotsDead()) {
     test.naturalSelection();
     test.mutateBabies();
-    test.restoreGhosts();
+    if(maxLocated<test.maxLocated){
+      maxLocated = test.maxLocated
+    }
   }
-  text("generation: " + test.gen, 20, 20);
-  text("maxFitness: " + test.minStep, 20, 30);
-  text("??: " + test.dots.length, 20, 40);
   test.update();
   test.show();
+  text("generation: " + test.gen, 20, 20);
+  text("maxLocated: " + maxLocated + " out of " + foodN, 20, 50);
+  text("maxFitness: " + test.minStep, 20, 30);
+  text("Fps: " + frameRate(), 20, 40);
   }
 }
 function mouseClicked() {
-  //ghostsPosition = new createVector(mouseX, mouseY);
-  test.minStep = brainLength ;
+  test.minStep = 0;
   test.reBuild();
   start =true;
 }
