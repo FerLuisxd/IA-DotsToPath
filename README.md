@@ -1,16 +1,16 @@
 
 # IA Project
- [![](https://i.imgur.com/k416Fc8.gif)](https://i.imgur.com/k416Fc8.gif)
+ <!-- [![](https://i.imgur.com/k416Fc8.gif)](https://i.imgur.com/k416Fc8.gif) -->
 
 ## Description
 
-Application of dots trying to get to the goal, it uses the Genetic Algorithm to eventually find the path.
+Application of dots trying the maximum points by getting more goals, it uses the Genetic Algorithm to eventually find the path to all the food.
 
 
 ## Installation - P5js
 
 Clone this repository
-Open p5js-impl/index.html on the browser
+Open wanna-be-packman/index.html on the browser
 
 ## Running the app - P5js
 

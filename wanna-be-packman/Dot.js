@@ -60,7 +60,7 @@ class Dot {
             if(this.located >= maxLocated *0.85 ) this.dead = true
             else {
                 console.log('soy down')
-                this.fitness = this.fitness * 0.80
+                this.fitness = this.fitness * 0.75
                 this.dead = true
             }   
         }
@@ -123,10 +123,10 @@ class Dot {
                     this.pos.x < this.buildings[i].x + this.buildings[i].xEnd + 2 &&
                     this.pos.y < this.buildings[i].y + this.buildings[i].yEnd + 2 &&
                     this.pos.x > this.buildings[i].x - 2 &&
-                    this.pos.y > this.buildings[i].y - 2
-                ) {
-                    return true
-                }
+                        this.pos.y > this.buildings[i].y - 2
+                    ) {
+                        return true
+                    }
             }
         }
         //Colision con los bordes
