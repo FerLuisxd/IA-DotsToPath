@@ -57,9 +57,10 @@ class Dot {
             this.acc = this.brain.directions[this.brain.step];
             this.brain.step++;
         } else {
+            // Logica de cuando se queda sin pasos
             if(this.located >= maxLocated *0.85 ) this.dead = true
             else {
-                console.log('soy down')
+                console.log('Low performance')
                 this.fitness = this.fitness * 0.75
                 this.dead = true
             }   
@@ -84,32 +85,27 @@ class Dot {
                     this.pos.y > this.foods[i].pos.y - 2
                 ) {
                     if(!this.foodReached[i]){
+                        //Logica de cuando encuentra comida
                         this.located++
+                        // Calculo de porcentaje, menos pasos = mas porcentaje
                         let porcentage = 1 - (this.brain.step/this.brain.directions.length)
-                        // if(this.fitness < 2*fit ){
-                        //     this.fitness += fit * porcentage * porcentage
-                        // }
-                        //else{}
+                        // En caso de sobresalir
                         if(this.located>= maxLocated) {
                             this.fitness += fit * porcentage
                         }
                         else if(porcentage <0.75){
                             this.fitness += fit * porcentage * porcentage 
                         }
+                        // No sobresale y toma muchos pasos
                         else {
                             this.fitness += fit * porcentage * porcentage * porcentage * porcentage
                         }
 
                         if(this.located>=maxLocated){
                             let random = Math.floor(Math.random() * 100)+ 150
-                            console.log('aumente de verdad ?', random)
+                            console.log('New Food!', random)
                             this.brain.extendRandomize(random) 
                         }
-                        // else if(this.located>=maxLocated * 0.85){
-                        //     let random = Math.floor(Math.random() * 50)+ 50
-                        //     console.log('aumente?', random)
-                        //     this.brain.extendRandomize(random) 
-                        // }
 
                         this.foodReached[i] = true
                         this.time = 2;

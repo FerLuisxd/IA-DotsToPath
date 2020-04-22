@@ -59,8 +59,11 @@ class Ghost {
         if ((this.rad/2 ) > distance) {
             console.log("murio por ghost")
             dot.dead = true;
+            // Sobresale mucho
             if(dot.located>maxLocated * 0.90) dot.fitness = dot.fitness * 0.85
+            // Sobresale un poco
             else if(dot.located>maxLocated*0.75) dot.fitness = dot.fitness * 0.60
+            // Sino
             else dot.fitness = dot.fitness * 0.3
             this.dead = true;
         }

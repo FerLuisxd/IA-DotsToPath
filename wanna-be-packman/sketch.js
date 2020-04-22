@@ -23,8 +23,11 @@ function draw() {
 
   //Condicional para realizar las actualizaciones correspondientes
   if (test.allDotsDead()) {
+    // Se selecciona 
     test.naturalSelection();
+    // Mutamos los hijos
     test.mutateBabies();
+    // Reestablecemos de la posicion de los fantasmas
     test.restoreGhosts();
     maxLocated = test.maxLocated
   }
