@@ -13,7 +13,7 @@ let maxVelocity = 20
 function setup() {
   createCanvas(windowWidth*factor, windowHeight*factor);
   frameRate(fr);
-  test = new Population(500,20,foodN,ghosts)
+  test = new Population(150,20,foodN,ghosts)
 }
 //Funcion para dibujar los componentes
 function draw() {
